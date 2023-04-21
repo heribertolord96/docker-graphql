@@ -39,20 +39,16 @@ jobs:
       run:  
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         
-    - name: Build Docker image
+    - name: Build Docker Image
       env:
-        NEW_VERSION:  ${{ steps.version.outputs.version }}
-    
-      run:
-        docker build -t docker4hth/docker-graphql:$NEW_VERSION .
-        docker build -t docker4hth/docker-graphql:latest .
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker build -t klerith/docker-graphql:$NEW_VERSION .
+        docker build -t klerith/docker-graphql:latest .
         
-    - name: Push Docker image
+    - name: Push Docker Image
       env:
-       NEW_VERSION:  ${{ steps.version.outputs.version }}
-      run:
-        docker push docker4hth/docker-graphql:$NEW_VERSION    
-        docker push docker4hth/docker-graphql:latest
-        
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push klerith/docker-graphql:$NEW_VERSION
+        docker push klerith/docker-graphql:latest
